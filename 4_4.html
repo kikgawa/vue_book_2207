@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vue SPAサンプルアプリ</title>
     <link rel="stylesheet" href="style.css" />
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <div id="app">
@@ -317,6 +322,10 @@
               Auth.logout();
               next("/top");
             },
+          },
+          {
+            path: "*",
+            redirect: "/top",
           },
         ],
       });
