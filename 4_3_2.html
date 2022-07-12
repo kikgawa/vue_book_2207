@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPAk</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <router-link to="/top">トップページ</router-link>
+      <router-link :to="{name:'user',params:{userId:124}}">ユーザーページ</router-link>
+      <router-view></router-view>
+    </div>
+
+    <script src="https://unpkg.com/vue@2.5.17"></script>
+    <script src="https://unpkg.com/vue-router@3.0.1"></script>
+    <script>
+      var router = new VueRouter({
+        routes: [
+          {
+            path: "/top",
+            component: {
+              template: "<div>TOP</div>",
+            },
+          },
+          {
+            path: "/user/:userId",
+            name: "user",
+            component: {
+              template: "<div>ユーザ {{$route.params.userId}}</div>",
+            },
+          },
+        ],
+      });
+
+      var app = new Vue({
+        router: router,
+      }).$mount("#app");
+    </script>
+  </body>
+</html>
