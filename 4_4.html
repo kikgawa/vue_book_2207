@@ -133,7 +133,7 @@
           callback(null, filteredUsers && filteredUsers[0]);
         }, 1000);
       };
-      var UserDetail = {
+      const UserDetail = {
         template: "#user-detail",
         data: () => {
           return {
@@ -143,7 +143,7 @@
           };
         },
 
-        created: function () {
+        created() {
           this.fetchData();
         },
 
@@ -152,24 +152,21 @@
         },
 
         methods: {
-          fetchData: function () {
+          fetchData() {
             this.loading = true;
-            getUser(
-              this.$route.params.userId,
-              function (err, user) {
-                this.loading = false;
-                if (err) {
-                  this.error = err.toString();
-                } else {
-                  this.user = user;
-                }
-              }.bind(this)
-            );
+            getUser(this.$route.params.userId, (err, user) => {
+              this.loading = false;
+              if (err) {
+                this.error = err.toString();
+              } else {
+                this.user = user;
+              }
+            });
           },
         },
       };
 
-      var getUsers = (callback) => {
+      const getUsers = (callback) => {
         setTimeout(() => {
           callback(null, userData);
         }, 1000);
@@ -179,31 +176,29 @@
         data: () => {
           return {
             loading: false,
-            users: function () {
+            users() {
               return [];
             },
             error: null,
           };
         },
-        created: function () {
+        created() {
           this.fetchData();
         },
         watch: {
           $route: "fetchData",
         },
         methods: {
-          fetchData: function () {
+          fetchData() {
             this.loading = true;
-            getUsers(
-              function (err, users) {
-                this.loading = false;
-                if (err) {
-                  this.error = err.toString();
-                } else {
-                  this.users = users;
-                }
-              }.bind(this)
-            );
+            getUsers((err, users) => {
+              this.loading = false;
+              if (err) {
+                this.error = err.toString();
+              } else {
+                this.users = users;
+              }
+            });
           },
         },
       };
@@ -216,22 +211,22 @@
       };
       const UserCreate = {
         template: "#user-create",
-        data: function () {
+        data() {
           return {
             sending: false,
             user: this.defaultUser(),
             error: null,
           };
         },
-        created: function () {},
+        created() {},
         methods: {
-          defaultUser: function () {
+          defaultUser() {
             return {
               name: "",
               description: "",
             };
           },
-          createUser: function () {
+          createUser() {
             if (this.user.name.trim() === "") {
               this.error = "Nameは必須です。";
               return;
@@ -240,20 +235,17 @@
               this.error = "Descriptionは必須です。";
               return;
             }
-            postUser(
-              this.user,
-              function (err, user) {
-                this.sending = false;
-                if (err) {
-                  this.error = err.toString();
-                } else {
-                  this.error = null;
-                  this.user = this.defaultUser();
-                  alert("新規ユーザーが登録されました。");
-                  this.$router.push("/users");
-                }
-              }.bind(this)
-            );
+            postUser(this.user, (err, user) => {
+              this.sending = false;
+              if (err) {
+                this.error = err.toString();
+              } else {
+                this.error = null;
+                this.user = this.defaultUser();
+                alert("新規ユーザーが登録されました。");
+                this.$router.push("/users");
+              }
+            });
           },
         },
       };
@@ -267,18 +259,14 @@
           };
         },
         methods: {
-          login: function () {
-            Auth.login(
-              this.email,
-              this.pass,
-              function (loggedIn) {
-                if (!loggedIn) {
-                  this.error = true;
-                } else {
-                  this.$router.replace(this.$route.query.redirect || "/top");
-                }
-              }.bind(this)
-            );
+          login() {
+            Auth.login(this.email, this.pass, (loggedIn) => {
+              if (!loggedIn) {
+                this.error = true;
+              } else {
+                this.$router.replace(this.$route.query.redirect || "/top");
+              }
+            });
           },
         },
       };
