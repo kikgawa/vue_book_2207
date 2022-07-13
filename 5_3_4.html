@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue カスタムディレクティブ</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <img v-fallback-image.once="noImageURL" src="./logo2.png" :alt="altText" />
+    </div>
+
+    <script src="https://unpkg.com/vue@2.5.17"></script>
+
+    <script>
+      Vue.directive("fallback-image", {
+        bind(el, binding) {
+          console.log("bind", binding);
+          const once = binding.modifiers.once; //修飾子
+          el.addEventListener("error", function onError() {
+            el.src = binding.value;
+            if (once) {
+              el.removeEventListener("error", onError);
+              console.log("remove");
+            }
+          });
+        },
+        update(el, binding) {
+          console.log("update", binding);
+          if (binding.oldValue !== bainding.value && binding.oldValue === el.src) {
+            el.src = binding.value;
+          }
+        },
+      });
+
+      const vm = new Vue({
+        el: "#app",
+        data() {
+          return {
+            altText: "logo",
+            noImageURL: "https://dummyimage.com/300/000/fff.png",
+          };
+        },
+      });
+    </script>
+  </body>
+</html>
