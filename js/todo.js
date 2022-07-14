@@ -2,8 +2,8 @@ const vm = new Vue({
   el: '#app',
   data: {
     newTodo: '',
-    todos: [
-    ]
+    todos: [],
+    edit: 0
   },
   methods: {
     addTask() {
@@ -12,6 +12,9 @@ const vm = new Vue({
     },
     deleteTask(index) {
       this.todos.splice(index, 1);
+    },
+    editTask(index) {
+      this.edit = index
     }
   }
 })
