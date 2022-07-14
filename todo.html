@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App</title>
+    <!-- <link rel="stylesheet" href="css/todo.css" /> -->
+  </head>
+  <body>
+    <div id="app">
+      <form @submit.prevent="addTask">
+        <input type="text" v-model="newTodo" />
+        <input type="submit" value="追加" />
+      </form>
+      <ul>
+        <li v-for="(todo,index) in todos">
+          {{ todo }}
+          <button @click="deleteTask(index)">削除</button>
+        </li>
+      </ul>
+    </div>
+
+    <script src="https://unpkg.com/vue@2.6.11"></script>
+    <script src="js/todo.js"></script>
+  </body>
+</html>
