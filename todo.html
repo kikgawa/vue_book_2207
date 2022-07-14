@@ -14,9 +14,14 @@
       </form>
       <ul>
         <li v-for="(todo,index) in todos">
-          <span v-if="index!=edit" key="edit">{{ todo }}</span>
-          <span v-else><input v-model="todos[index]" key="edit" /></span>
-          <button @click="editTask(index)">編集</button>
+          {{todo.item}}
+          <span v-if="todo.isActive">
+            <span>
+              <input type="text" v-model="todo.item" key="edit" />
+            </span>
+            <button @click="updateTask(index)">確定</button>
+          </span>
+          <button v-show="!todo.isActive" @click="editTask(index)">編集</button>
           <button @click="deleteTask(index)">削除</button>
         </li>
       </ul>
