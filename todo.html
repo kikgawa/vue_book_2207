@@ -15,7 +15,7 @@
       <ul>
         <li v-for="(todo,index) in todos">
           <span v-if="index!=edit">{{ todo }}</span>
-          <span v-else><input v-model="todo" /></span>
+          <span v-else><input v-model="todos[index]" /></span>
           <button @click="editTask(index)">編集</button>
           <button @click="deleteTask(index)">削除</button>
         </li>
