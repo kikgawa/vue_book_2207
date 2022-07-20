@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App</title>
+    <!-- <link rel="stylesheet" href="css/todo.css" /> -->
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="https://unpkg.com/vue@2.6.11"></script>
+    <script src="https://unpkg.com/vuex@3.4.0"></script>
+    <script>
+      Vue.use(Vuex);
+
+      function getCountNum(type) {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            let amount;
+            switch (type) {
+              case "one":
+                amount = 1;
+                break;
+              case "two":
+                amount = 2;
+                break;
+              case "ten":
+                amount = 10;
+                break;
+              default:
+                amount = 0;
+            }
+            resolve({ amount });
+          }, 1000);
+        });
+      }
+
+      const store = new Vuex.Store({
+        state: {
+          count: 10,
+        },
+        mutations: {
+          increment(state, payload) {
+            state.count += payload.amount;
+          },
+        },
+        actions: {
+          incrementAsync({ commit }, payload) {
+            return getCountNum(payload.type).then((data) => {
+              console.log(data);
+              commit("increment", {
+                amount: data.amount,
+              });
+            });
+          },
+        },
+      });
+      // store.dispatch("incrementAsync", { type: "one" });
+      console.log(store.state.count);
+
+      store.dispatch("incrementAsync", { type: "ten" }).then(() => {
+        console.log(store.state.count);
+      });
+    </script>
+  </body>
+</html>
