@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mega Menu</title>
+    <link rel="stylesheet" href="./css/style.min.css" />
+  </head>
+  <body>
+    <header id="global_header" class="p-global-header">
+      <nav class="p-global-header__nav">
+        <p class="p-global-header__logo">
+          <a class="p-global-header__logo-link" href="/">
+            <!-- {% inject_svg '/assets/img/common/logo_row.svg' %} -->
+            <span>第一カッター興業株式会社</span>
+          </a>
+        </p>
+        <ul class="p-global-header__list">
+          <li class="p-global-header__list-item">
+            <button @click="toggleMenu">
+              <span lang="en">company</span>
+              <span>企業情報</span>
+            </button>
+            <ul class="p-global-header-second__list" :class="{'-active':isActive}">
+              <li v-for="item in companyMenu" class="p-global-header__second-list">
+                <a v-if="item.link"  :href="item.link" :target="item.blank ? '_blank' : false" >{{item.label}}</a>
+                <span v-else>{{item.label}}</span>
+              </li>
+            </ul>
+          </li>
+          <li class="p-global-header__list-item">
+            <button @click="toggleMenu">
+              <span lang="en">technology</span>
+              <span>事業と技術</span>
+            </button>
+          </li>
+          <li class="p-global-header__list-item">
+            <button @click="toggleMenu">
+              <span lang="en">projects</span>
+              <span>事例紹介</span>
+            </button>
+          </li>
+          <li class="p-global-header__list-item">
+            <button>
+              <span lang="en">investors</span>
+              <span>株主・投資家情報</span>
+            </button>
+          </li>
+          <li class="p-global-header__list-item">
+            <a href="/recruit/">
+              <span lang="en">recruit</span>
+              <span>採用情報</span>
+            </a>
+          </li>
+        </ul>
+        <p class="p-global-header__contact">
+          <a class="c-button -color-secondary -appearance-fill" href="/contact/">
+            <span lang="en">contact</span>
+            <span>お問い合わせ</span>
+          </a>
+        </p>
+      </nav>
+    </header>
+
+
+
+    <script src="https://unpkg.com/vue@2.6.11"></script>
+    <script>
+      const nav = new Vue({
+        el: '#global_header',
+        data: {
+
+          isActive:false,
+          companyMenu: [
+            {
+              id:1,
+              label: '私たちについて',
+              link: '', // linkプロパティがあればリンク、なければ孫メニューを開く
+              blank: true, // _blankで開くフラグ,
+              firstNavId: '親メニューのユニークID'
+            },
+            {
+              id:2,
+              label: '会社概要',
+              link: '/hoge',
+              blank: false, 
+              firstNavId: '親メニューのユニークID'
+            },
+            {
+              id:3,
+              label: '沿革',
+              link: '/hoge',
+              blank: false, 
+              firstNavId: '親メニューのユニークID'
+            },
+            {
+              id:4,
+              label: '事業所・関連会社',
+              link: '/hoge',
+              blank: false, 
+              firstNavId: '親メニューのユニークID'
+            },
+            {
+              id:5,
+              label: '第一カッター興行の取り組み',
+              link: '/hoge',
+              blank: false, 
+              firstNavId: '親メニューのユニークID'
+            },
+          ],
+          technologyMenu: [
+            {
+              id:1,
+              label: 'テクノロジーメニュー',
+              link: '', // linkプロパティがあればリンク、なければ孫メニューを開く
+              blank: true, // _blankで開くフラグ,
+              firstNavId: '親メニューのユニークID'
+            },
+            {
+              id:2,
+              label: 'テクノロジーメニュー',
+              link: '/hoge',
+              blank: false, 
+              firstNavId: '親メニューのユニークID'
+            },
+            {
+              id:3,
+              label: 'テクノロジーメニュー',
+              link: '/hoge',
+              blank: false, 
+              firstNavId: '親メニューのユニークID'
+            },
+            {
+              id:4,
+              label: 'テクノロジーメニュー',
+              link: '/hoge',
+              blank: false, 
+              firstNavId: '親メニューのユニークID'
+            },
+            {
+              id:5,
+              label: 'テクノロジーメニュー',
+              link: '/hoge',
+              blank: false, 
+              firstNavId: '親メニューのユニークID'
+            },
+          ],
+          projectsMenu: [
+            {
+              id:1,
+              label: 'プロジェクトメニュー',
+              link: '', // linkプロパティがあればリンク、なければ孫メニューを開く
+              blank: true, // _blankで開くフラグ,
+              firstNavId: '親メニューのユニークID'
+            },
+            {
+              id:2,
+              label: 'プロジェクトメニュー',
+              link: '/hoge',
+              blank: false, 
+              firstNavId: '親メニューのユニークID'
+            },
+            {
+              id:3,
+              label: 'プロジェクトメニュー',
+              link: '/hoge',
+              blank: false, 
+              firstNavId: '親メニューのユニークID'
+            },
+            {
+              id:4,
+              label: 'プロジェクトメニュー',
+              link: '/hoge',
+              blank: false, 
+              firstNavId: '親メニューのユニークID'
+            },
+            {
+              id:5,
+              label: 'プロジェクトメニュー',
+              link: '/hoge',
+              blank: false, 
+              firstNavId: '親メニューのユニークID'
+            },
+          ],
+        },
+        methods: { 
+          toggleMenu () {
+            this.isActive = !this.isActive
+          }
+        }
+      });
+      </script>
+    </body>
+  </html>
