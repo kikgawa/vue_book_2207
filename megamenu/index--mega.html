@@ -17,25 +17,20 @@
         </p>
         <ul class="p-global-header__list">
           <li class="p-global-header__list-item">
-            <button @click="toggleMenu">
+            <button @click="mouseEvent($event,'item' )">
               <span lang="en">company</span>
               <span>企業情報</span>
             </button>
-            <ul class="p-global-header-second__list" :class="{'-active':isActive}">
-              <li v-for="item in companyMenu" class="p-global-header__second-list">
-                <a v-if="item.link"  :href="item.link" :target="item.blank ? '_blank' : false" >{{item.label}}</a>
-                <span v-else>{{item.label}}</span>
-              </li>
-            </ul>
+            
           </li>
           <li class="p-global-header__list-item">
-            <button @click="toggleMenu">
+            <button>
               <span lang="en">technology</span>
               <span>事業と技術</span>
             </button>
           </li>
           <li class="p-global-header__list-item">
-            <button @click="toggleMenu">
+            <button>
               <span lang="en">projects</span>
               <span>事例紹介</span>
             </button>
@@ -60,6 +55,9 @@
           </a>
         </p>
       </nav>
+      <div class="megamenu" v-if="showMegaMenu">
+        メガメニュー
+      </div>
     </header>
 
 
@@ -69,125 +67,98 @@
       const nav = new Vue({
         el: '#global_header',
         data: {
-
-          isActive:false,
-          companyMenu: [
+          showMegaMenu: false,
+          secondMenu: [
             {
               id:1,
               label: '私たちについて',
               link: '', // linkプロパティがあればリンク、なければ孫メニューを開く
               blank: true, // _blankで開くフラグ,
-              firstNavId: '親メニューのユニークID'
+              firstNavId: 'company'
             },
             {
-              id:2,
+              id:1,
               label: '会社概要',
               link: '/hoge',
               blank: false, 
-              firstNavId: '親メニューのユニークID'
+              firstNavId: 'company'
             },
             {
-              id:3,
+              id:2,
               label: '沿革',
-              link: '/hoge',
+              link: '',
               blank: false, 
-              firstNavId: '親メニューのユニークID'
+              firstNavId: 'tech'
             },
             {
-              id:4,
+              id:2,
               label: '事業所・関連会社',
-              link: '/hoge',
+              link: '',
               blank: false, 
-              firstNavId: '親メニューのユニークID'
+              firstNavId: 'tech'
             },
             {
-              id:5,
+              id:2,
               label: '第一カッター興行の取り組み',
               link: '/hoge',
               blank: false, 
-              firstNavId: '親メニューのユニークID'
+              firstNavId: 'tech'
             },
           ],
-          technologyMenu: [
+          thirdMenu: [
             {
               id:1,
-              label: 'テクノロジーメニュー',
+              label: '孫メニュ-',
               link: '', // linkプロパティがあればリンク、なければ孫メニューを開く
               blank: true, // _blankで開くフラグ,
-              firstNavId: '親メニューのユニークID'
+              secondtNavId: '親メニューのユニークID'
             },
             {
               id:2,
-              label: 'テクノロジーメニュー',
-              link: '/hoge',
+              label: '孫メニュ-',
+              link: '',
               blank: false, 
-              firstNavId: '親メニューのユニークID'
+              secondNavId: '親メニューのユニークID'
             },
             {
               id:3,
-              label: 'テクノロジーメニュー',
-              link: '/hoge',
+              label: '孫メニュ-',
+              link: '',
               blank: false, 
-              firstNavId: '親メニューのユニークID'
+              secondNavId: '親メニューのユニークID'
             },
             {
               id:4,
-              label: 'テクノロジーメニュー',
+              label: '孫メニュ- リンク',
               link: '/hoge',
               blank: false, 
-              firstNavId: '親メニューのユニークID'
+              secondNavId: '親メニューのユニークID'
             },
             {
               id:5,
-              label: 'テクノロジーメニュー',
+              label: '孫メニュ- リンク',
               link: '/hoge',
               blank: false, 
-              firstNavId: '親メニューのユニークID'
-            },
-          ],
-          projectsMenu: [
-            {
-              id:1,
-              label: 'プロジェクトメニュー',
-              link: '', // linkプロパティがあればリンク、なければ孫メニューを開く
-              blank: true, // _blankで開くフラグ,
-              firstNavId: '親メニューのユニークID'
-            },
-            {
-              id:2,
-              label: 'プロジェクトメニュー',
-              link: '/hoge',
-              blank: false, 
-              firstNavId: '親メニューのユニークID'
-            },
-            {
-              id:3,
-              label: 'プロジェクトメニュー',
-              link: '/hoge',
-              blank: false, 
-              firstNavId: '親メニューのユニークID'
-            },
-            {
-              id:4,
-              label: 'プロジェクトメニュー',
-              link: '/hoge',
-              blank: false, 
-              firstNavId: '親メニューのユニークID'
-            },
-            {
-              id:5,
-              label: 'プロジェクトメニュー',
-              link: '/hoge',
-              blank: false, 
-              firstNavId: '親メニューのユニークID'
+              secondNavId: '親メニューのユニークID'
             },
           ],
         },
         methods: { 
-          toggleMenu () {
-            this.isActive = !this.isActive
-          }
-        }
+          mouseEvent(event, source, key = "") {
+            if (source === "item") {
+              event.stopPropagation();
+            }
+            this.showMegaMenu = key === "company";
+          },
+        },
+        mounted() {
+          eventBus.$on("hide-mega-menu", () => {
+            this.showMegaMenu = false;
+          });
+        },
+        beforeDestroy() {
+          eventBus.$off("hide-mega-menu");
+        },
       });
       </script>
     </body>
